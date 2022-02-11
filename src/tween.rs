@@ -9,7 +9,7 @@ pub struct Tween<T> {
     duration: Duration,
 }
 
-impl<T: Lerp + Clone> Tween<T> {
+impl<'a, T: Lerp<'a> + Clone> Tween<T> {
     pub fn new(target: T, duration: Duration) -> Self {
         Self { target, duration }
     }
@@ -32,7 +32,7 @@ pub struct TweenInstance<T> {
     duration: Duration,
 }
 
-impl<T: Lerp> TweenInstance<T> {
+impl<'a, T: Lerp<'a>> TweenInstance<T> {
     pub fn new(start: T, target: T, time: Duration, duration: Duration) -> Self {
         Self {
             start,
@@ -46,10 +46,10 @@ impl<T: Lerp> TweenInstance<T> {
         self.time >= self.duration
     }
 
-    pub fn progress(&mut self, val: &mut T, dt: Duration) {
+    pub fn progress(&mut self, val: T::Write, dt: Duration) {
         self.time += dt;
         let t = (self.time.as_secs_f32() / self.duration.as_secs_f32()).min(1.0);
-        dbg!(t);
-        *val = self.start.lerp(&self.target, t);
+
+        T::lerp(val, &self.start, &self.target, t);
     }
 }
