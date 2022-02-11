@@ -4,8 +4,7 @@ use std::{
     time::Duration,
 };
 
-use ez::*;
-use glam::vec3;
+use ezy::*;
 
 #[test]
 fn float() {
@@ -52,7 +51,9 @@ fn thread() {
 }
 
 #[test]
+#[cfg(feature = "glam")]
 fn tuple() {
+    use glam::vec3;
     let mut val = (0.0, vec3(0.0, 1.0, 0.0));
     let tween = Tween::new((5.0, vec3(0.0, 2.0, -10.0)), Duration::from_secs(5));
     let mut anim = tween.start(val);

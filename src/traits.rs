@@ -1,5 +1,3 @@
-use glam::{Quat, Vec2, Vec3, Vec4};
-
 pub trait Lerp<'a> {
     type Write;
     fn lerp(write: Self::Write, start: &Self, end: &Self, t: f32);
@@ -13,6 +11,7 @@ impl<'a> Lerp<'a> for f32 {
     }
 }
 
+#[allow(unused_macros)]
 macro_rules! mul_impl {
     ($ty: ident) => {
         impl<'a> Lerp<'a> for $ty {
@@ -30,8 +29,12 @@ macro_rules! mul_impl {
     };
 }
 
+#[cfg(feature = "glam")]
+use glam::{Quat, Vec2, Vec3, Vec4};
+#[cfg(feature = "glam")]
 mul_impl!([Vec2, Vec3, Vec4]);
 
+#[cfg(feature = "glam")]
 impl<'a> Lerp<'a> for Quat {
     type Write = &'a mut Self;
 

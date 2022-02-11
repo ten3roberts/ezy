@@ -1,11 +1,11 @@
 [package]
-name = "ez"
+name = "ezy"
 version = "0.1.0"
 edition = "2021"
 description = "Easy to use tweening library"
 authors = [ "Tei Roberts" ]
-documentation = "https://docs.rs/ez"
-repository = "https://github.com/ten3roberts/ez"
+documentation = "https://docs.rs/ezy"
+repository = "https://github.com/ten3roberts/ezy"
 license = "MIT"
 
 keywords = [ "tween", "math" ]
@@ -13,5 +13,5 @@ keywords = [ "tween", "math" ]
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-glam = "0.20.2"
+glam = { version = ">= 0.12", optional = true }
 
