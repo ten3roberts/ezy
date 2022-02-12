@@ -10,6 +10,19 @@ impl<'a> Lerp<'a> for f32 {
         *write = (1.0 - t) * start + t * end
     }
 }
+#[cfg(feature = "glam")]
+impl<'a> Lerp<'a> for glam::Mat4 {
+    type Write = &'a mut Self;
+
+    fn lerp(write: Self::Write, start: &Self, end: &Self, t: f32) {
+        let (e_scale, e_rot, e_pos) = end.to_scale_rotation_translation();
+        let (scale, rot, pos) = start.to_scale_rotation_translation();
+        let scale = scale.lerp(e_scale, t);
+        let rot = rot.slerp(e_rot, t);
+        let pos = pos.lerp(e_pos, t);
+        *write = glam::Mat4::from_scale_rotation_translation(scale, rot, pos);
+    }
+}
 
 #[allow(unused_macros)]
 macro_rules! mul_impl {
